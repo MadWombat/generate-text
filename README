@@ -1,0 +1,17 @@
+A text generator written as a code sample. This program will absorb multiple sources of sample text and
+generate random pieces of text resembling in style the provided samples. Currently it is using a fairly
+simple implementation of Markov chains.
+
+Additional generators:
+
+Other generators may be implemented by adding more generator classes under generators. Each generator is expected to
+implement importFile(), generateText() and dumpState() and initialize with database file name as a string. Additional
+engines will need to be included in the imports in generate.py and added to the option parsing statement.
+
+Limitations:
+
+* No checking is done for compatibility between the engine used and database imported. When using an existing database
+make sure that you are using the same engine as was used for generating the database.
+
+* The current implementation is not optimized for performance, so generating very large texts or using very large databases
+is not recommended.
