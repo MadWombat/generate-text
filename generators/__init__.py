@@ -1,1 +1,2 @@
 from MarkovChainGenerator import MarkovChainGenerator
+from MarkovChainGenerator import SensitiveMarkovChainGenerator

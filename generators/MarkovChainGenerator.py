@@ -4,7 +4,7 @@ import random
 import pickle
 import operator
 
-class MarkovChainGenerator:
+class MarkovChainGenerator(object):
     """
     A list of words, associated with other words. Each word in the list has
     a list of other words attached to it. Each word in the list is assigned a
@@ -15,6 +15,7 @@ class MarkovChainGenerator:
     def __init__(self, filename):
         "Initialize from a stored file or create a new file to store the chain data"
         self.storage = filename
+        self.sensitive = False
         if os.path.exists(self.storage):
             self.words = pickle.load(file(self.storage))
         else:
@@ -63,8 +64,9 @@ class MarkovChainGenerator:
             prev = None
             for line in f:
                 for word in line.split():
-                    # remove punctuation and lower-case everything
-                    word = nonalpha.sub('', word).lower()
+                    if not self.sensitive:
+                        # remove punctuation and lower-case everything
+                        word = nonalpha.sub('', word).lower()
                     if not prev:
                         prev = word
                         continue
@@ -83,3 +85,10 @@ class MarkovChainGenerator:
             print "%s : %d" % (first, len(self.words[first]))
             for second in self.words[first]:
                 print "\t%s : %d" % (second, self.words[first][second])
+
+class SensitiveMarkovChainGenerator(MarkovChainGenerator):
+    "same thing as MarkovChainGenerator, but it doesn't remove punctuation"
+
+    def __init__(self, filename, sensitive=True):
+        super(SensitiveMarkovChainGenerator, self).__init__(filename)
+        self.sensitive = True
